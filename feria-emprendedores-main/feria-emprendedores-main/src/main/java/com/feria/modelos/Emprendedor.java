@@ -3,10 +3,6 @@ package com.feria.modelos;
 import java.util.ArrayList;
 import java.util.List;
 
-// Enum para categorías → más seguro y extensible
-public enum Categoria {
-    COMIDA, ARTESANIA, TECNOLOGIA, ROPA
-}
 
 public class Emprendedor {
 
@@ -33,7 +29,7 @@ public class Emprendedor {
 
     public int calcularValorTotalStock() {
         return productos.stream()
-                .mapToInt(p -> p.getPrecio() * p.getStock())
+                .mapToInt(p -> (int) (p.getPrecio() * p.getStock()))
                 .sum();
     }
 

@@ -1,56 +1,44 @@
 package com.feria.modelos;
 
+import java.time.LocalDate;
+
 public class Venta {
 
-    public String idVenta;
-    public String emprendedorId;
-    public String productoNombre;
-    public int cantidad;
-    public double precioUnitario;
-    public String fecha;
-    public boolean pagoRealizado;
+    private String idVenta;
+    private Emprendedor emprendedor;
+    private Producto producto;
+    private int cantidad;
+    private double precioUnitario;
+    private LocalDate fecha;
+    private boolean pagoRealizado;
 
-    public Venta(String idVenta, String empId, String prodNombre, int cant, double precioUnit, String fecha) {
+    public Venta(String idVenta, Emprendedor emprendedor, Producto producto, int cantidad, double precioUnitario, LocalDate fecha) {
         this.idVenta = idVenta;
-        this.emprendedorId = empId;
-        this.productoNombre = prodNombre;
-        this.cantidad = cant;
-        this.precioUnitario = precioUnit;
+        this.emprendedor = emprendedor;
+        this.producto = producto;
+        this.cantidad = cantidad;
+        this.precioUnitario = precioUnitario;
         this.fecha = fecha;
         this.pagoRealizado = false;
     }
 
-    public double calcularTotalConDescuento() {
-        double total = cantidad * precioUnitario;
-
-        if (cantidad > 10) {
-            total = total * 0.9;
-        }
-
-        if (total > 5000) {
-            total = total * 0.95;
-        }
-
-        return total;
+    public double calcularTotal() {
+        return cantidad * precioUnitario;
     }
 
-    public void registrarPagoYActualizarStock(Producto p) {
+    public void registrarPago() {
         this.pagoRealizado = true;
-        if (p != null) {
-            p.stock = p.stock - this.cantidad;
+        if (producto != null) {
+            producto.setStock(producto.getStock() - cantidad);
         }
-        System.out.println("Pago registrado y stock actualizado");
     }
 
-    public String generarRecibo() {
-        String recibo = "=== RECIBO DE VENTA ===\n";
-        recibo += "Venta ID: " + idVenta + "\n";
-        recibo += "Fecha: " + fecha + "\n";
-        recibo += "Producto: " + productoNombre + "\n";
-        recibo += "Cantidad: " + cantidad + "\n";
-        recibo += "Precio unitario: $" + precioUnitario + "\n";
-        recibo += "Total con descuentos: $" + calcularTotalConDescuento() + "\n";
-        recibo += "Pago: " + (pagoRealizado ? "Realizado" : "Pendiente") + "\n";
-        return recibo;
-    }
+    // --- Getters ---
+    public String getIdVenta() { return idVenta; }
+    public Emprendedor getEmprendedor() { return emprendedor; }
+    public Producto getProducto() { return producto; }
+    public int getCantidad() { return cantidad; }
+    public double getPrecioUnitario() { return precioUnitario; }
+    public LocalDate getFecha() { return fecha; }
+    public boolean isPagoRealizado() { return pagoRealizado; }
 }
