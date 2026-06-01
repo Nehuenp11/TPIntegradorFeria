@@ -26,6 +26,33 @@ public class Validadores {
     }
 
     public static boolean categoriaPermitida(String categoria) {
-        return CATEGORIAS_PERMITIDAS.contains(categoria);
+        return categoria != null && CATEGORIAS_PERMITIDAS.contains(categoria.toLowerCase());
+    }
+
+
+
+    public static String validarEmprendedorCompleto(Emprendedor emprendedor) {
+        if (emprendedor == null) {
+            return "Emprendedor invalido: null";
+        }
+
+        StringBuilder resultado = new StringBuilder();
+        if (emprendedor.getNombre() == null || emprendedor.getNombre().isBlank()) {
+            resultado.append("Nombre invalido. ");
+        }
+        if (emprendedor.getIdentificador() == null || emprendedor.getIdentificador().isBlank()) {
+            resultado.append("Identificador invalido. ");
+        }
+        if (!telefonoValido(emprendedor.getTelefono())) {
+            resultado.append("Telefono invalido. ");
+        }
+        if (!emailValido(emprendedor.getEmail())) {
+            resultado.append("Email invalido. ");
+        }
+        if (emprendedor.getCategoria() == null) {
+            resultado.append("Categoria invalida. ");
+        }
+
+        return resultado.length() == 0 ? "Emprendedor valido" : resultado.toString().trim();
     }
 }

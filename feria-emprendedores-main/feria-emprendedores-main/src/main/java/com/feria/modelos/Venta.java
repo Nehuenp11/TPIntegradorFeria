@@ -12,6 +12,16 @@ public class Venta {
     private LocalDate fecha;
     private boolean pagoRealizado;
 
+    public Venta(String idVenta, String emprendedor, String producto, int cantidad, double precioUnitario, String fecha) {
+        this.idVenta = idVenta;
+        this.emprendedor = null;
+        this.producto = null;
+        this.cantidad = cantidad;
+        this.precioUnitario = precioUnitario;
+        this.fecha = LocalDate.parse(fecha);
+        this.pagoRealizado = false;
+    }
+
     public Venta(String idVenta, Emprendedor emprendedor, Producto producto, int cantidad, double precioUnitario, LocalDate fecha) {
         this.idVenta = idVenta;
         this.emprendedor = emprendedor;
@@ -24,6 +34,10 @@ public class Venta {
 
     public double calcularTotal() {
         return cantidad * precioUnitario;
+    }
+
+    public double calcularTotalConDescuento() {
+        return calcularTotal();
     }
 
     public void registrarPago() {
@@ -42,3 +56,4 @@ public class Venta {
     public LocalDate getFecha() { return fecha; }
     public boolean isPagoRealizado() { return pagoRealizado; }
 }
+

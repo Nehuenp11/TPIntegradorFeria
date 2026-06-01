@@ -1,6 +1,7 @@
 package com.feria.servicios;
 
 import com.feria.modelos.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class GestorFeria {
         }
 
         for (int i = 0; i < nombresProductos.size(); i++) {
-            Producto p = new Producto(nombresProductos.get(i), precios.get(i), stocks.get(i), categoria, id);
+            Producto p = new Producto(nombresProductos.get(i), precios.get(i), stocks.get(i), e);
             e.agregarProducto(p);
             productos.add(p);
         }
@@ -47,7 +48,7 @@ public class GestorFeria {
 
         Producto productoEncontrado = null;
         for (Producto p : productos) {
-            if (p.nombre.equals(prodNombre) && p.emprendedorId.equals(empId)) {
+            if (p.getNombre().equals(prodNombre) && empId.equals(p.getEmprendedorId())) {
                 productoEncontrado = p;
                 break;
             }
@@ -58,24 +59,24 @@ public class GestorFeria {
             return;
         }
 
-        if (productoEncontrado.stock < cantidad) {
+        if (productoEncontrado.getStock() < cantidad) {
             System.out.println("Stock insuficiente");
             return;
         }
 
-        Venta v = new Venta(idVenta, empId, prodNombre, cantidad, precio, fecha);
+        Venta v = new Venta(idVenta, productoEncontrado.getEmprendedor(), productoEncontrado, cantidad, precio, LocalDate.parse(fecha));
         ventas.add(v);
 
-        productoEncontrado.stock -= cantidad;
+        productoEncontrado.setStock(productoEncontrado.getStock() - cantidad);
 
-        System.out.println("Venta registrada. Nuevo stock: " + productoEncontrado.stock);
+        System.out.println("Venta registrada. Nuevo stock: " + productoEncontrado.getStock());
     }
 
     public List<Emprendedor> getEmprendedoresConStockBajo() {
         List<Emprendedor> resultado = new ArrayList<>();
         for (Emprendedor e : emprendedores) {
-            for (Producto p : e.prods) {
-                if (p.hayStockBajo()) {
+            for (Producto p : e.getProductos()) {
+                if (p.tieneStockBajo()) {
                     resultado.add(e);
                     break;
                 }
@@ -87,11 +88,11 @@ public class GestorFeria {
     public void procesarVentasPendientesYCobrar() {
         double totalRecaudado = 0;
         for (Venta v : ventas) {
-            if (!v.pagoRealizado) {
+            if (!v.isPagoRealizado()) {
                 double monto = v.calcularTotalConDescuento();
                 totalRecaudado += monto;
-                v.pagoRealizado = true;
-                System.out.println("Cobrada venta " + v.idVenta + " por $" + monto);
+                v.registrarPago();
+                System.out.println("Cobrada venta " + v.getIdVenta() + " por $" + monto);
             }
         }
         System.out.println("Total recaudado: $" + totalRecaudado);
