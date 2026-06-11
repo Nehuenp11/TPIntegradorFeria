@@ -22,18 +22,13 @@ public class GestorFeria {
     }
 
     public void registrarEmprendedorConProductos(String nombre, String id, String telefono,
-                                                 String email, String categoria,
+                                                 String email, String categoriaStr,
                                                  List<String> nombresProductos,
                                                  List<Double> precios,
                                                  List<Integer> stocks) {
 
+        Categoria categoria = Categoria.valueOf(categoriaStr.toUpperCase());
         Emprendedor e = new Emprendedor(nombre, id, telefono, email, categoria);
-
-        List<String> errores = validador.validar(e);
-        if (!errores.isEmpty()) {
-            System.out.println("Errores al registrar emprendedor: " + errores);
-            return;
-        }
 
         for (int i = 0; i < nombresProductos.size(); i++) {
             Producto p = new Producto(nombresProductos.get(i), precios.get(i), stocks.get(i), e.getCategoria(), id);
@@ -61,7 +56,7 @@ public class GestorFeria {
             return;
         }
 
-        Venta v = new Venta(idVenta, empId, productoEncontrado.getIdProducto(), cantidad, precio, LocalDate.parse(fecha));
+        Venta v = new Venta(idVenta, empId, productoEncontrado.getNombre(), cantidad, precio, LocalDate.parse(fecha));
         ventas.add(v);
 
         productoEncontrado.setStock(productoEncontrado.getStock() - cantidad);
@@ -113,6 +108,10 @@ public class GestorFeria {
 
     public List<Producto> getProductos() {
         return productos;
+    }
+
+    public List<Venta> getVentas() {
+        return ventas;
     }
 }
 

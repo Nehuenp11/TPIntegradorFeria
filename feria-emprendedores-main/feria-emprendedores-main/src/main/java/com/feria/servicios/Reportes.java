@@ -7,7 +7,7 @@ public class Reportes {
     public String generarReportePorCategoria(GestorFeria gestor, String categoria) {
         String reporte = "=== REPORTE DE EMPRENDEDORES - CATEGORIA: " + categoria + " ===\n";
 
-        for (Emprendedor emprendedor : gestor.emprendedores) {
+        for (Emprendedor emprendedor : gestor.getEmprendedores()) {
             if (coincideCategoria(emprendedor, categoria)) {
                 reporte += formatearEmprendedor(emprendedor);
                 reporte += "---\n";
@@ -19,7 +19,7 @@ public class Reportes {
 
     public String generarReportePorCategoriaAlternativo(GestorFeria gestor, String categoria) {
         String resultado = "REPORTE CATEGORIA " + categoria + "\n";
-        for (Emprendedor emprendedor : gestor.emprendedores) {
+        for (Emprendedor emprendedor : gestor.getEmprendedores()) {
             if (coincideCategoria(emprendedor, categoria)) {
                 resultado += emprendedor.getNombre() + "\n";
             }
@@ -29,7 +29,7 @@ public class Reportes {
 
     public double calcularVentasTotales(GestorFeria gestor) {
         double total = 0;
-        for (Venta venta : gestor.ventas) {
+        for (Venta venta : gestor.getVentas()) {
             total += venta.calcularTotal();
         }
         return total;
@@ -37,15 +37,15 @@ public class Reportes {
 
     public void imprimirResumenEjecutivo(GestorFeria gestor) {
         System.out.println("========== RESUMEN EJECUTIVO ==========");
-        System.out.println("Total emprendedores: " + gestor.emprendedores.size());
-        System.out.println("Total productos: " + gestor.productos.size());
-        System.out.println("Total ventas: " + gestor.ventas.size());
+        System.out.println("Total emprendedores: " + gestor.getEmprendedores().size());
+        System.out.println("Total productos: " + gestor.getProductos().size());
+        System.out.println("Total ventas: " + gestor.getVentas().size());
 
         double totalVentas = calcularVentasTotales(gestor);
         System.out.println("Total facturado: $" + totalVentas);
 
         int emprendedoresStockBajo = 0;
-        for (Emprendedor emprendedor : gestor.emprendedores) {
+        for (Emprendedor emprendedor : gestor.getEmprendedores()) {
             for (Producto producto : emprendedor.getProductos()) {
                 if (producto.tieneStockBajo()) {
                     emprendedoresStockBajo++;
