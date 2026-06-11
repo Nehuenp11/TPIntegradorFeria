@@ -2,30 +2,18 @@ package com.feria.modelos;
 
 public class Producto {
 
-    private String nombre;
-    private double precio;
+    private final String nombre;
+    private final double precio;
     private int stock;
-    private Emprendedor emprendedor; // referencia directa al objeto
-    private String categoriaTexto;
-    private String emprendedorId;
+    private final Categoria categoria;
+    private final String emprendedorId; // referencia por ID, no objeto
 
-    public Producto(String nombre, double precio, int stock, Emprendedor emprendedor) {
+    public Producto(String nombre, double precio, int stock, Categoria categoria, String emprendedorId) {
         this.nombre = nombre;
         this.precio = precio;
         this.stock = stock;
-        this.emprendedor = emprendedor;
-        this.categoriaTexto = emprendedor != null && emprendedor.getCategoria() != null
-                ? emprendedor.getCategoria().name()
-                : null;
-        this.emprendedorId = emprendedor != null ? emprendedor.getIdentificador() : null;
-    }
-
-    public Producto(String nombre, Double precio, Integer stock, String categoria, String id) {
-        this.nombre = nombre;
-        this.precio = precio != null ? precio : 0.0;
-        this.stock = stock != null ? stock : 0;
-        this.categoriaTexto = categoria;
-        this.emprendedorId = id;
+        this.categoria = categoria;
+        this.emprendedorId = emprendedorId;
     }
 
     // --- Métodos de negocio ---
@@ -37,15 +25,32 @@ public class Producto {
         return stock < 5;
     }
 
-    // --- Getters y Setters ---
-    public String getNombre() { return nombre; }
-    public double getPrecio() { return precio; }
-    public int getStock() { return stock; }
-    public Emprendedor getEmprendedor() { return emprendedor; }
-    public String getCategoriaTexto() { return categoriaTexto; }
-    public String getEmprendedorId() { return emprendedorId; }
+    // --- Getters ---
+    public String getNombre() {
+        return nombre;
+    }
 
-    public void setStock(int stock) { this.stock = stock; }
+    public double getPrecio() {
+        return precio;
+    }
 
+    public int getStock() {
+        return stock;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public String getEmprendedorId() {
+        return emprendedorId;
+    }
+
+    // --- Setters controlados ---
+    public void setStock(int stock) {
+        if (stock >= 0) {
+            this.stock = stock;
+        }
+    }
 
 }

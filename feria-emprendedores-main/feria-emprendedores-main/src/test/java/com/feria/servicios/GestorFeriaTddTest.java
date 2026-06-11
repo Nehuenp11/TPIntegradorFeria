@@ -14,9 +14,9 @@ class GestorFeriaTddTest {
         Emprendedor e1 = new Emprendedor("Ana", "E001", "3423456789", "ana@mail.com", Categoria.COMIDA);
         Emprendedor e2 = new Emprendedor("Carlos", "E002", "3423987654", "carlos@mail.com", Categoria.ARTESANIA);
         Emprendedor e3 = new Emprendedor("Luis", "E003", "3423111111", "luis@mail.com", Categoria.COMIDA);
-        gestor.emprendedores.add(e1);
-        gestor.emprendedores.add(e2);
-        gestor.emprendedores.add(e3);
+        gestor.getEmprendedores().add(e1);
+        gestor.getEmprendedores().add(e2);
+        gestor.getEmprendedores().add(e3);
 
         List<Emprendedor> resultado = gestor.buscarPorCategoria("comida");
 
@@ -29,7 +29,7 @@ class GestorFeriaTddTest {
     @Test
     void buscarPorCategoriaSinCoincidencias() {
         GestorFeria gestor = new GestorFeria();
-        gestor.emprendedores.add(new Emprendedor("Ana", "E001", "3423456789", "ana@mail.com", Categoria.COMIDA));
+        gestor.getEmprendedores().add(new Emprendedor("Ana", "E001", "3423456789", "ana@mail.com", Categoria.COMIDA));
 
         List<Emprendedor> resultado = gestor.buscarPorCategoria("tecnologia");
 

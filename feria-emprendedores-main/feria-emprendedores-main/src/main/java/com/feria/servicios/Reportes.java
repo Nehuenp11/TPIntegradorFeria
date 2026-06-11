@@ -30,7 +30,7 @@ public class Reportes {
     public double calcularVentasTotales(GestorFeria gestor) {
         double total = 0;
         for (Venta venta : gestor.ventas) {
-            total += venta.calcularTotalConDescuento();
+            total += venta.calcularTotal();
         }
         return total;
     }

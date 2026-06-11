@@ -1,4 +1,4 @@
-package com.feria.utils;
+package com.feria.servicios.validadores;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
