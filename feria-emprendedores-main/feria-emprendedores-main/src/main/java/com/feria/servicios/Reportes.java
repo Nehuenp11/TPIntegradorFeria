@@ -30,7 +30,7 @@ public class Reportes {
     public double calcularVentasTotales(GestorFeria gestor) {
         double total = 0;
         for (Venta venta : gestor.ventas) {
-            total += venta.calcularTotal();
+            total += venta.calcularTotalConDescuento();
         }
         return total;
     }
@@ -65,21 +65,18 @@ public class Reportes {
 
     private String formatearEmprendedor(Emprendedor emprendedor) {
         StringBuilder reporte = new StringBuilder();
-        reporte.append("Nombre: ").append(emprendedor.getNombre()).append("\n");
+        reporte.append("Emprendedor: ").append(emprendedor.getNombre()).append("\n");
         reporte.append("ID: ").append(emprendedor.getIdentificador()).append("\n");
-        reporte.append("Telefono: ").append(emprendedor.getTelefono()).append("\n");
-        reporte.append("Email: ").append(emprendedor.getEmail()).append("\n");
+        reporte.append("Contacto: ").append(emprendedor.getTelefono()).append(" | ").append(emprendedor.getEmail()).append("\n");
         reporte.append("Categoria: ").append(emprendedor.getCategoria()).append("\n");
         reporte.append("Productos:\n");
 
         for (Producto producto : emprendedor.getProductos()) {
-            reporte.append("- ")
+            reporte.append("  - ")
                     .append(producto.getNombre())
-                    .append(" | Precio: $")
+                    .append(" ($")
                     .append(producto.getPrecio())
-                    .append(" | Stock: ")
-                    .append(producto.getStock())
-                    .append("\n");
+                    .append(")\n");
         }
 
         return reporte.toString();

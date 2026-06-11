@@ -2,6 +2,10 @@ package com.feria.modelos;
 
 import java.time.LocalDate;
 
+import com.feria.servicios.Descuento;
+import com.feria.servicios.DescuentoPorCantidad;
+import com.feria.servicios.DescuentoPorMonto;
+
 public class Venta {
 
     private String idVenta;
@@ -37,14 +41,17 @@ public class Venta {
     }
 
     public double calcularTotalConDescuento() {
-        return calcularTotal();
+        double total = calcularTotal();
+        Descuento descCant = new DescuentoPorCantidad();
+        Descuento descMonto = new DescuentoPorMonto();
+        total = descCant.aplicar(total, cantidad);
+        total = descMonto.aplicar(total, cantidad);
+        return total;
+        
     }
 
     public void registrarPago() {
         this.pagoRealizado = true;
-        if (producto != null) {
-            producto.setStock(producto.getStock() - cantidad);
-        }
     }
 
     // --- Getters ---
