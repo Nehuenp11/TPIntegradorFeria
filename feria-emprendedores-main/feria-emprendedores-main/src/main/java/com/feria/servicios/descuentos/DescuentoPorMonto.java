@@ -1,4 +1,4 @@
-package com.feria.servicios;
+package com.feria.servicios.descuentos;
 
 public class DescuentoPorMonto implements Descuento {
     @Override

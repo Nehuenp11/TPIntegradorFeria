@@ -2,17 +2,15 @@ package com.feria.modelos;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
-
 
 public class Emprendedor {
 
-    private String nombre;
-    private String identificador;
-    private String telefono;
-    private String email;
-    private Categoria categoria;
-    private List<Producto> productos;
+    private final String nombre;
+    private final String identificador;
+    private final String telefono;
+    private final String email;
+    private final Categoria categoria;
+    private final List<Producto> productos;
 
     public Emprendedor(String nombre, String identificador, String telefono, String email, Categoria categoria) {
         this.nombre = nombre;
@@ -23,11 +21,7 @@ public class Emprendedor {
         this.productos = new ArrayList<>();
     }
 
-    public Emprendedor(String nombre, String identificador, String telefono, String email, String categoria) {
-        this(nombre, identificador, telefono, email, parseCategoria(categoria));
-    }
-
-    // SRP: Métodos de negocio separados
+    // SRP: solo maneja datos y operaciones básicas
     public void agregarProducto(Producto producto) {
         productos.add(producto);
     }
@@ -38,7 +32,7 @@ public class Emprendedor {
                 .sum();
     }
 
-
+    // Getters
     public String getNombre() {
         return nombre;
     }
@@ -60,28 +54,6 @@ public class Emprendedor {
     }
 
     public List<Producto> getProductos() {
-        return productos;
-    }
-
-    public String mostrarInfoYValidar() {
-        StringJoiner info = new StringJoiner("\n");
-        info.add("Emprendedor: " + nombre);
-        info.add("ID: " + identificador);
-        info.add("Telefono: " + telefono);
-        info.add("Email: " + email);
-        info.add("Categoria: " + categoria);
-        info.add("Productos registrados: " + productos.size());
-        return info.toString();
-    }
-
-    private static Categoria parseCategoria(String categoria) {
-        if (categoria == null) {
-            return null;
-        }
-        try {
-            return Categoria.valueOf(categoria.trim().toUpperCase());
-        } catch (IllegalArgumentException ex) {
-            return null;
-        }
+        return new ArrayList<>(productos); // defensivo
     }
 }

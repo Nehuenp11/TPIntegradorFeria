@@ -4,56 +4,70 @@ import java.time.LocalDate;
 
 public class Venta {
 
-    private String idVenta;
-    private Emprendedor emprendedor;
-    private Producto producto;
-    private int cantidad;
-    private double precioUnitario;
-    private LocalDate fecha;
+    private final String idVenta;
+    private final String emprendedorId;   // referencia por ID, no objeto
+    private final String productoId;      // referencia por ID, no objeto
+    private final int cantidad;
+    private final double precioUnitario;
+    private final LocalDate fecha;
     private boolean pagoRealizado;
 
-    public Venta(String idVenta, String emprendedor, String producto, int cantidad, double precioUnitario, String fecha) {
+    public Venta(String idVenta, String emprendedorId, String productoId, int cantidad, double precioUnitario, LocalDate fecha) {
+        if (cantidad <= 0) {
+            throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
+        }
+        if (precioUnitario <= 0) {
+            throw new IllegalArgumentException("El precio unitario debe ser mayor a 0");
+        }
         this.idVenta = idVenta;
-        this.emprendedor = null;
-        this.producto = null;
-        this.cantidad = cantidad;
-        this.precioUnitario = precioUnitario;
-        this.fecha = LocalDate.parse(fecha);
-        this.pagoRealizado = false;
-    }
-
-    public Venta(String idVenta, Emprendedor emprendedor, Producto producto, int cantidad, double precioUnitario, LocalDate fecha) {
-        this.idVenta = idVenta;
-        this.emprendedor = emprendedor;
-        this.producto = producto;
+        this.emprendedorId = emprendedorId;
+        this.productoId = productoId;
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
         this.fecha = fecha;
         this.pagoRealizado = false;
     }
 
+    // --- Métodos de negocio ---
     public double calcularTotal() {
         return cantidad * precioUnitario;
     }
 
-    public double calcularTotalConDescuento() {
-        return calcularTotal();
+    public double calcularTotalConDescuento(int estrategia) {
+        return estrategia;
     }
 
     public void registrarPago() {
         this.pagoRealizado = true;
-        if (producto != null) {
-            producto.setStock(producto.getStock() - cantidad);
-        }
     }
 
     // --- Getters ---
-    public String getIdVenta() { return idVenta; }
-    public Emprendedor getEmprendedor() { return emprendedor; }
-    public Producto getProducto() { return producto; }
-    public int getCantidad() { return cantidad; }
-    public double getPrecioUnitario() { return precioUnitario; }
-    public LocalDate getFecha() { return fecha; }
-    public boolean isPagoRealizado() { return pagoRealizado; }
+    public String getIdVenta() {
+        return idVenta;
+    }
+
+    public String getEmprendedorId() {
+        return emprendedorId;
+    }
+
+    public String getProductoId() {
+        return productoId;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public double getPrecioUnitario() {
+        return precioUnitario;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public boolean isPagoRealizado() {
+        return pagoRealizado;
+    }
 }
 
