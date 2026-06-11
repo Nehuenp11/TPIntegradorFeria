@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Venta.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">feria-emprendedores</a> &gt; <a href="index.source.html" class="el_package">com.feria.modelos</a> &gt; <span class="el_source">Venta.java</span></div><h1>Venta.java</h1><pre class="source lang-java linenums">package com.feria.modelos;
+
+import java.time.LocalDate;
+
+import com.feria.servicios.Descuento;
+import com.feria.servicios.DescuentoPorCantidad;
+import com.feria.servicios.DescuentoPorMonto;
+
+public class Venta {
+
+    private String idVenta;
+    private Emprendedor emprendedor;
+    private Producto producto;
+    private int cantidad;
+    private double precioUnitario;
+    private LocalDate fecha;
+    private boolean pagoRealizado;
+
+<span class="nc" id="L19">    public Venta(String idVenta, String emprendedor, String producto, int cantidad, double precioUnitario, String fecha) {</span>
+<span class="nc" id="L20">        this.idVenta = idVenta;</span>
+<span class="nc" id="L21">        this.emprendedor = null;</span>
+<span class="nc" id="L22">        this.producto = null;</span>
+<span class="nc" id="L23">        this.cantidad = cantidad;</span>
+<span class="nc" id="L24">        this.precioUnitario = precioUnitario;</span>
+<span class="nc" id="L25">        this.fecha = LocalDate.parse(fecha);</span>
+<span class="nc" id="L26">        this.pagoRealizado = false;</span>
+<span class="nc" id="L27">    }</span>
+
+<span class="fc" id="L29">    public Venta(String idVenta, Emprendedor emprendedor, Producto producto, int cantidad, double precioUnitario, LocalDate fecha) {</span>
+<span class="fc" id="L30">        this.idVenta = idVenta;</span>
+<span class="fc" id="L31">        this.emprendedor = emprendedor;</span>
+<span class="fc" id="L32">        this.producto = producto;</span>
+<span class="fc" id="L33">        this.cantidad = cantidad;</span>
+<span class="fc" id="L34">        this.precioUnitario = precioUnitario;</span>
+<span class="fc" id="L35">        this.fecha = fecha;</span>
+<span class="fc" id="L36">        this.pagoRealizado = false;</span>
+<span class="fc" id="L37">    }</span>
+
+    public double calcularTotal() {
+<span class="fc" id="L40">        return cantidad * precioUnitario;</span>
+    }
+
+    public double calcularTotalConDescuento() {
+<span class="fc" id="L44">        double total = calcularTotal();</span>
+<span class="fc" id="L45">        Descuento descCant = new DescuentoPorCantidad();</span>
+<span class="fc" id="L46">        Descuento descMonto = new DescuentoPorMonto();</span>
+<span class="fc" id="L47">        total = descCant.aplicar(total, cantidad);</span>
+<span class="fc" id="L48">        total = descMonto.aplicar(total, cantidad);</span>
+<span class="fc" id="L49">        return total;</span>
+        
+    }
+
+    public void registrarPago() {
+<span class="nc" id="L54">        this.pagoRealizado = true;</span>
+<span class="nc" id="L55">    }</span>
+
+    // --- Getters ---
+<span class="nc" id="L58">    public String getIdVenta() { return idVenta; }</span>
+<span class="nc" id="L59">    public Emprendedor getEmprendedor() { return emprendedor; }</span>
+<span class="nc" id="L60">    public Producto getProducto() { return producto; }</span>
+<span class="nc" id="L61">    public int getCantidad() { return cantidad; }</span>
+<span class="nc" id="L62">    public double getPrecioUnitario() { return precioUnitario; }</span>
+<span class="nc" id="L63">    public LocalDate getFecha() { return fecha; }</span>
+<span class="nc" id="L64">    public boolean isPagoRealizado() { return pagoRealizado; }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

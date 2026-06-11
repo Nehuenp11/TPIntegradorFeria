@@ -1,0 +1,16 @@
+com\feria\utils\ProductoFormatter.class
+com\feria\servicios\Descuento.class
+com\feria\servicios\Reportes.class
+com\feria\modelos\Venta.class
+com\feria\Main.class
+com\feria\modelos\Producto.class
+com\feria\utils\Validadores.class
+com\feria\utils\EmprendedorFormatter.class
+com\feria\modelos\Categoria.class
+com\feria\servicios\externos\EmailService.class
+com\feria\servicios\GestorFeria.class
+com\feria\servicios\RegistroService.class
+com\feria\modelos\Emprendedor.class
+com\feria\servicios\ValidadorEmprendedor.class
+com\feria\servicios\DescuentoPorCantidad.class
+com\feria\servicios\DescuentoPorMonto.class

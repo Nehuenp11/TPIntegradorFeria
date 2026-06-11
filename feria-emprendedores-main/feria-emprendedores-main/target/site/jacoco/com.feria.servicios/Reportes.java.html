@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Reportes.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">feria-emprendedores</a> &gt; <a href="index.source.html" class="el_package">com.feria.servicios</a> &gt; <span class="el_source">Reportes.java</span></div><h1>Reportes.java</h1><pre class="source lang-java linenums">package com.feria.servicios;
+
+import com.feria.modelos.*;
+
+<span class="nc" id="L5">public class Reportes {</span>
+
+    public String generarReportePorCategoria(GestorFeria gestor, String categoria) {
+<span class="nc" id="L8">        String reporte = &quot;=== REPORTE DE EMPRENDEDORES - CATEGORIA: &quot; + categoria + &quot; ===\n&quot;;</span>
+
+<span class="nc bnc" id="L10" title="All 2 branches missed.">        for (Emprendedor emprendedor : gestor.emprendedores) {</span>
+<span class="nc bnc" id="L11" title="All 2 branches missed.">            if (coincideCategoria(emprendedor, categoria)) {</span>
+<span class="nc" id="L12">                reporte += formatearEmprendedor(emprendedor);</span>
+<span class="nc" id="L13">                reporte += &quot;---\n&quot;;</span>
+            }
+<span class="nc" id="L15">        }</span>
+
+<span class="nc" id="L17">        return reporte;</span>
+    }
+
+    public String generarReportePorCategoriaAlternativo(GestorFeria gestor, String categoria) {
+<span class="nc" id="L21">        String resultado = &quot;REPORTE CATEGORIA &quot; + categoria + &quot;\n&quot;;</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">        for (Emprendedor emprendedor : gestor.emprendedores) {</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">            if (coincideCategoria(emprendedor, categoria)) {</span>
+<span class="nc" id="L24">                resultado += emprendedor.getNombre() + &quot;\n&quot;;</span>
+            }
+<span class="nc" id="L26">        }</span>
+<span class="nc" id="L27">        return resultado;</span>
+    }
+
+    public double calcularVentasTotales(GestorFeria gestor) {
+<span class="nc" id="L31">        double total = 0;</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        for (Venta venta : gestor.ventas) {</span>
+<span class="nc" id="L33">            total += venta.calcularTotalConDescuento();</span>
+<span class="nc" id="L34">        }</span>
+<span class="nc" id="L35">        return total;</span>
+    }
+
+    public void imprimirResumenEjecutivo(GestorFeria gestor) {
+<span class="nc" id="L39">        System.out.println(&quot;========== RESUMEN EJECUTIVO ==========&quot;);</span>
+<span class="nc" id="L40">        System.out.println(&quot;Total emprendedores: &quot; + gestor.emprendedores.size());</span>
+<span class="nc" id="L41">        System.out.println(&quot;Total productos: &quot; + gestor.productos.size());</span>
+<span class="nc" id="L42">        System.out.println(&quot;Total ventas: &quot; + gestor.ventas.size());</span>
+
+<span class="nc" id="L44">        double totalVentas = calcularVentasTotales(gestor);</span>
+<span class="nc" id="L45">        System.out.println(&quot;Total facturado: $&quot; + totalVentas);</span>
+
+<span class="nc" id="L47">        int emprendedoresStockBajo = 0;</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        for (Emprendedor emprendedor : gestor.emprendedores) {</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">            for (Producto producto : emprendedor.getProductos()) {</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">                if (producto.tieneStockBajo()) {</span>
+<span class="nc" id="L51">                    emprendedoresStockBajo++;</span>
+<span class="nc" id="L52">                    break;</span>
+                }
+<span class="nc" id="L54">            }</span>
+<span class="nc" id="L55">        }</span>
+<span class="nc" id="L56">        System.out.println(&quot;Emprendedores con stock bajo: &quot; + emprendedoresStockBajo);</span>
+<span class="nc" id="L57">        System.out.println(&quot;=======================================&quot;);</span>
+<span class="nc" id="L58">    }</span>
+
+    private boolean coincideCategoria(Emprendedor emprendedor, String categoria) {
+<span class="nc bnc" id="L61" title="All 4 branches missed.">        return emprendedor.getCategoria() != null</span>
+                &amp;&amp; categoria != null
+<span class="nc bnc" id="L63" title="All 2 branches missed.">                &amp;&amp; emprendedor.getCategoria().name().equalsIgnoreCase(categoria);</span>
+    }
+
+    private String formatearEmprendedor(Emprendedor emprendedor) {
+<span class="nc" id="L67">        StringBuilder reporte = new StringBuilder();</span>
+<span class="nc" id="L68">        reporte.append(&quot;Emprendedor: &quot;).append(emprendedor.getNombre()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L69">        reporte.append(&quot;ID: &quot;).append(emprendedor.getIdentificador()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L70">        reporte.append(&quot;Contacto: &quot;).append(emprendedor.getTelefono()).append(&quot; | &quot;).append(emprendedor.getEmail()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L71">        reporte.append(&quot;Categoria: &quot;).append(emprendedor.getCategoria()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L72">        reporte.append(&quot;Productos:\n&quot;);</span>
+
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        for (Producto producto : emprendedor.getProductos()) {</span>
+<span class="nc" id="L75">            reporte.append(&quot;  - &quot;)</span>
+<span class="nc" id="L76">                    .append(producto.getNombre())</span>
+<span class="nc" id="L77">                    .append(&quot; ($&quot;)</span>
+<span class="nc" id="L78">                    .append(producto.getPrecio())</span>
+<span class="nc" id="L79">                    .append(&quot;)\n&quot;);</span>
+<span class="nc" id="L80">        }</span>
+
+<span class="nc" id="L82">        return reporte.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

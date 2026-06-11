@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Validadores.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">feria-emprendedores</a> &gt; <a href="index.source.html" class="el_package">com.feria.utils</a> &gt; <span class="el_source">Validadores.java</span></div><h1>Validadores.java</h1><pre class="source lang-java linenums">package com.feria.utils;
+
+import com.feria.modelos.Emprendedor;
+import java.util.Set;
+import java.util.regex.Pattern;
+
+<span class="nc" id="L7">public class Validadores {</span>
+
+    // Extracción de constantes y optimización de búsqueda
+<span class="fc" id="L10">    private static final Set&lt;String&gt; CATEGORIAS_PERMITIDAS = Set.of(&quot;comida&quot;, &quot;artesania&quot;, &quot;tecnologia&quot;, &quot;ropa&quot;);</span>
+
+    // Regex básico para mejorar la validación débil del email
+<span class="fc" id="L13">    private static final Pattern EMAIL_PATTERN = Pattern.compile(&quot;^[A-Za-z0-9+_.-]+@(.+)$&quot;);</span>
+
+    public static boolean emailValido(String email) {
+<span class="fc bfc" id="L16" title="All 2 branches covered.">        if (email == null) return false;</span>
+<span class="fc" id="L17">        return EMAIL_PATTERN.matcher(email).matches();</span>
+    }
+
+    public static boolean telefonoValido(String telefono) {
+<span class="nc bnc" id="L21" title="All 4 branches missed.">        return telefono != null &amp;&amp; telefono.length() &gt;= 8;</span>
+    }
+
+    public static boolean validarPrecioStock(double precio, int stock) {
+<span class="nc bnc" id="L25" title="All 4 branches missed.">        return precio &gt; 0 &amp;&amp; stock &gt;= 0;</span>
+    }
+
+    public static boolean categoriaPermitida(String categoria) {
+<span class="nc bnc" id="L29" title="All 4 branches missed.">        return categoria != null &amp;&amp; CATEGORIAS_PERMITIDAS.contains(categoria.toLowerCase());</span>
+    }
+
+
+
+    public static String validarEmprendedorCompleto(Emprendedor emprendedor) {
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        if (emprendedor == null) {</span>
+<span class="nc" id="L36">            return &quot;Emprendedor invalido: null&quot;;</span>
+        }
+
+<span class="nc" id="L39">        StringBuilder resultado = new StringBuilder();</span>
+<span class="nc bnc" id="L40" title="All 4 branches missed.">        if (emprendedor.getNombre() == null || emprendedor.getNombre().isBlank()) {</span>
+<span class="nc" id="L41">            resultado.append(&quot;Nombre invalido. &quot;);</span>
+        }
+<span class="nc bnc" id="L43" title="All 4 branches missed.">        if (emprendedor.getIdentificador() == null || emprendedor.getIdentificador().isBlank()) {</span>
+<span class="nc" id="L44">            resultado.append(&quot;Identificador invalido. &quot;);</span>
+        }
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        if (!telefonoValido(emprendedor.getTelefono())) {</span>
+<span class="nc" id="L47">            resultado.append(&quot;Telefono invalido. &quot;);</span>
+        }
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        if (!emailValido(emprendedor.getEmail())) {</span>
+<span class="nc" id="L50">            resultado.append(&quot;Email invalido. &quot;);</span>
+        }
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (emprendedor.getCategoria() == null) {</span>
+<span class="nc" id="L53">            resultado.append(&quot;Categoria invalida. &quot;);</span>
+        }
+
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        return resultado.length() == 0 ? &quot;Emprendedor valido&quot; : resultado.toString().trim();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

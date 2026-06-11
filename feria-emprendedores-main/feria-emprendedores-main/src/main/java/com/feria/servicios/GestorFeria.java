@@ -85,6 +85,18 @@ public class GestorFeria {
         return resultado;
     }
 
+    public List<Emprendedor> buscarPorCategoria(String categoria) {
+        List<Emprendedor> resultado = new ArrayList<>();
+        for (Emprendedor e : emprendedores) {
+            if (e.getCategoria() != null
+                    && categoria != null
+                    && e.getCategoria().name().equalsIgnoreCase(categoria)) {
+                resultado.add(e);
+            }
+        }
+        return resultado;
+    }
+
     public void procesarVentasPendientesYCobrar() {
         double totalRecaudado = 0;
         for (Venta v : ventas) {
