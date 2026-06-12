@@ -19,26 +19,19 @@ public class GestorFeria {
         this.emprendedores = new ArrayList<>();
         this.productos = new ArrayList<>();
         this.ventas = new ArrayList<>();
-        this.validador.validar()
-        ;
     }
 
     public void registrarEmprendedorConProductos(String nombre, String id, String telefono,
-                                                 String email, String categoria,
+                                                 String email, String categoriaStr,
                                                  List<String> nombresProductos,
                                                  List<Double> precios,
                                                  List<Integer> stocks) {
 
+        Categoria categoria = Categoria.valueOf(categoriaStr.toUpperCase());
         Emprendedor e = new Emprendedor(nombre, id, telefono, email, categoria);
 
-        List<String> errores = validador.validar(e);
-        if (!errores.isEmpty()) {
-            System.out.println("Errores al registrar emprendedor: " + errores);
-            return;
-        }
-
         for (int i = 0; i < nombresProductos.size(); i++) {
-            Producto p = new Producto(nombresProductos.get(i), precios.get(i), stocks.get(i), Categoria, id);
+            Producto p = new Producto(nombresProductos.get(i), precios.get(i), stocks.get(i), e.getCategoria(), id);
             e.agregarProducto(p);
             productos.add(p);
         }
@@ -63,7 +56,7 @@ public class GestorFeria {
             return;
         }
 
-        Venta v = new Venta(idVenta, empId, productoEncontrado.getIdProducto(), cantidad, precio, LocalDate.parse(fecha));
+        Venta v = new Venta(idVenta, empId, productoEncontrado.getNombre(), cantidad, precio, LocalDate.parse(fecha));
         ventas.add(v);
 
         productoEncontrado.setStock(productoEncontrado.getStock() - cantidad);
@@ -75,6 +68,18 @@ public class GestorFeria {
         List<Emprendedor> resultado = new ArrayList<>();
         for (Emprendedor e : emprendedores) {
             if (e.getProductos().stream().anyMatch(Producto::tieneStockBajo)) {
+                resultado.add(e);
+            }
+        }
+        return resultado;
+    }
+
+    public List<Emprendedor> buscarPorCategoria(String categoria) {
+        List<Emprendedor> resultado = new ArrayList<>();
+        for (Emprendedor e : emprendedores) {
+            if (e.getCategoria() != null
+                    && categoria != null
+                    && e.getCategoria().name().equalsIgnoreCase(categoria)) {
                 resultado.add(e);
             }
         }
@@ -103,6 +108,10 @@ public class GestorFeria {
 
     public List<Producto> getProductos() {
         return productos;
+    }
+
+    public List<Venta> getVentas() {
+        return ventas;
     }
 }
 

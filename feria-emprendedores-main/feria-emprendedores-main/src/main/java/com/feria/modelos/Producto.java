@@ -4,7 +4,6 @@ public class Producto {
 
     private final String nombre;
     private final double precio;
-    private Categoria Categoria;
     private int stock;
     private final Categoria categoria;
     private final String emprendedorId; // referencia por ID, no objeto
@@ -13,7 +12,7 @@ public class Producto {
         this.nombre = nombre;
         this.precio = precio;
         this.stock = stock;
-        this.categoria = Categoria;
+        this.categoria = categoria;
         this.emprendedorId = emprendedorId;
     }
 
