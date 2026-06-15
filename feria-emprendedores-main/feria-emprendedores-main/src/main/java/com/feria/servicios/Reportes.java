@@ -1,30 +1,35 @@
 package com.feria.servicios;
 
 import com.feria.modelos.*;
+import com.feria.servicios.reportes.*;
 
 public class Reportes {
 
     public String generarReportePorCategoria(GestorFeria gestor, String categoria) {
-        String reporte = "=== REPORTE DE EMPRENDEDORES - CATEGORIA: " + categoria + " ===\n";
+        ReporteBuilder builder = new ReporteCompletoBuilder();
+        builder.agregarHeader("REPORTE DE EMPRENDEDORES - CATEGORIA: " + categoria);
 
         for (Emprendedor emprendedor : gestor.getEmprendedores()) {
             if (coincideCategoria(emprendedor, categoria)) {
-                reporte += formatearEmprendedor(emprendedor);
-                reporte += "---\n";
+                builder.agregarEmprendedor(emprendedor);
+                builder.agregarSeparador();
             }
         }
 
-        return reporte;
+        return builder.construir();
     }
 
     public String generarReportePorCategoriaAlternativo(GestorFeria gestor, String categoria) {
-        String resultado = "REPORTE CATEGORIA " + categoria + "\n";
+        ReporteBuilder builder = new ReporteSimpleBuilder();
+        builder.agregarHeader("REPORTE CATEGORIA " + categoria);
+
         for (Emprendedor emprendedor : gestor.getEmprendedores()) {
             if (coincideCategoria(emprendedor, categoria)) {
-                resultado += emprendedor.getNombre() + "\n";
+                builder.agregarEmprendedor(emprendedor);
             }
         }
-        return resultado;
+
+        return builder.construir();
     }
 
     public double calcularVentasTotales(GestorFeria gestor) {
@@ -36,13 +41,14 @@ public class Reportes {
     }
 
     public void imprimirResumenEjecutivo(GestorFeria gestor) {
-        System.out.println("========== RESUMEN EJECUTIVO ==========");
-        System.out.println("Total emprendedores: " + gestor.getEmprendedores().size());
-        System.out.println("Total productos: " + gestor.getProductos().size());
-        System.out.println("Total ventas: " + gestor.getVentas().size());
+        ReporteBuilder builder = new ReporteResumenBuilder();
+        builder.agregarHeader("RESUMEN EJECUTIVO");
+        builder.agregarLinea("Total emprendedores: " + gestor.getEmprendedores().size());
+        builder.agregarLinea("Total productos: " + gestor.getProductos().size());
+        builder.agregarLinea("Total ventas: " + gestor.getVentas().size());
 
         double totalVentas = calcularVentasTotales(gestor);
-        System.out.println("Total facturado: $" + totalVentas);
+        builder.agregarLinea("Total facturado: $" + totalVentas);
 
         int emprendedoresStockBajo = 0;
         for (Emprendedor emprendedor : gestor.getEmprendedores()) {
@@ -53,32 +59,15 @@ public class Reportes {
                 }
             }
         }
-        System.out.println("Emprendedores con stock bajo: " + emprendedoresStockBajo);
-        System.out.println("=======================================");
+        builder.agregarLinea("Emprendedores con stock bajo: " + emprendedoresStockBajo);
+        builder.agregarSeparador();
+
+        System.out.println(builder.construir());
     }
 
     private boolean coincideCategoria(Emprendedor emprendedor, String categoria) {
         return emprendedor.getCategoria() != null
                 && categoria != null
                 && emprendedor.getCategoria().name().equalsIgnoreCase(categoria);
-    }
-
-    private String formatearEmprendedor(Emprendedor emprendedor) {
-        StringBuilder reporte = new StringBuilder();
-        reporte.append("Emprendedor: ").append(emprendedor.getNombre()).append("\n");
-        reporte.append("ID: ").append(emprendedor.getIdentificador()).append("\n");
-        reporte.append("Contacto: ").append(emprendedor.getTelefono()).append(" | ").append(emprendedor.getEmail()).append("\n");
-        reporte.append("Categoria: ").append(emprendedor.getCategoria()).append("\n");
-        reporte.append("Productos:\n");
-
-        for (Producto producto : emprendedor.getProductos()) {
-            reporte.append("  - ")
-                    .append(producto.getNombre())
-                    .append(" ($")
-                    .append(producto.getPrecio())
-                    .append(")\n");
-        }
-
-        return reporte.toString();
     }
 }
